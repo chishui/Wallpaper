@@ -7,10 +7,12 @@
 
 import Foundation
 
+// Singleton
 class PathHelper {
+    static let shared = PathHelper()
     let fileManager = FileManager.default
+    private init() {}
     
-    //
     func getApplicationFolder() -> URL? {
         let appSupportURL = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         let displayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "OneWallpaper"

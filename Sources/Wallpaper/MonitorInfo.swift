@@ -8,27 +8,19 @@
 import Foundation
 import AppKit
 
-// frame coordinate
-// |
-// |
-// +-----
-
-// image coordinate
-// +----
-// |
-// |
-
+// Singleton
 class MonitorInfo {
+    static let shared = MonitorInfo()
     let workspace = NSWorkspace.shared
-    var screens: [Screen] = []
-    var frames: [NSRect] = []
+    private(set) var screens: [Screen] = []
+    private(set) var frames: [NSRect] = []
     
-    init() {
+    private init() {
         loadScreen()
     }
 
     public func getFrame() -> NSRect? {
-        var unionFrame: NSRect? = nil;
+        var unionFrame : NSRect?
         for screen in NSScreen.screens {
             if unionFrame == nil {
                 unionFrame = screen.frame

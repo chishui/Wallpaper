@@ -9,10 +9,10 @@ import Foundation
 import AppKit
 
 class ImageCutter {
-    lazy var monitorInfo = MonitorInfo()
-    lazy var pathHelper = PathHelper()
+    let monitorInfo = MonitorInfo.shared
+    let pathHelper = PathHelper.shared
     
-    public func cut(wallpaperUrl: URL) -> [Screen: URL] {
+    public func cut(wallpaperUrl: URL) throws -> [Screen: URL] {
         guard let frame = monitorInfo.getFrame(), let imagePath = pathHelper.getImageFolder() else { return [:] }
         var image = NSImage(byReferencing: wallpaperUrl)
         let ret = preprocessImage(monitorFrame: frame, image: image)!
@@ -22,14 +22,10 @@ class ImageCutter {
         for screen in monitorInfo.screens {
             let imageFrame = NSRect(origin: NSPoint(x: screen.frame.origin.x - frame.minX, y: frame.maxY - screen.frame.maxY), size: screen.frame.size)
             let sub = crop(frame: imageFrame, image: image, factor: factor)
-            do {
-                //let subImageUrl = imagePath.appendingPathComponent("\(screen.name)_\(NSDate().timeIntervalSince1970).png")
-                let subImageUrl = imagePath.appendingPathComponent("\(screen.name).png")
-                try sub?.savePngTo(url: subImageUrl)
-                m[screen] = subImageUrl
-            } catch {
-                print(error)
-            }
+            //let subImageUrl = imagePath.appendingPathComponent("\(screen.name)_\(NSDate().timeIntervalSince1970).png")
+            let subImageUrl = imagePath.appendingPathComponent("\(screen.name).png")
+            try sub?.savePngTo(url: subImageUrl)
+            m[screen] = subImageUrl
         }
         return m
     }
