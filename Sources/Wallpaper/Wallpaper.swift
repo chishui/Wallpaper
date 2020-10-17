@@ -8,7 +8,7 @@
 import Foundation
 import AppKit
 
-class Wallpaper {
+public class Wallpaper {
     let workspace = NSWorkspace.shared
     let imageCutter = ImageCutter()
     let pathHelper = PathHelper()
