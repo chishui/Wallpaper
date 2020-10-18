@@ -40,7 +40,11 @@ public class Wallpaper {
         do {
             switch method {
             case .across:
-                try setWallpaperAcrossMonitors(wallpaperUrl: wallpaperUrl)
+                if monitorInfo.screens.count == 1 {
+                    try setWallpaperDuplicateInMonitors(wallpaperUrl: wallpaperUrl)
+                } else {
+                    try setWallpaperAcrossMonitors(wallpaperUrl: wallpaperUrl)
+                }
             case .duplicate:
                 try setWallpaperDuplicateInMonitors(wallpaperUrl: wallpaperUrl)
             }

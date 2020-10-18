@@ -32,16 +32,17 @@ class ImageCutter {
  
     func preprocessImage(monitorFrame: NSRect, image: NSImage) -> (image: NSImage?, factor: CGFloat)? {
         guard let scaledImage = image.resizeMaintainingAspectRatio(withSize: monitorFrame.size) else { return nil }
-        var x: CGFloat = 0, y: CGFloat = 0
+        let cgImage = scaledImage.asCGImage()
+        var x: CGFloat = 0, y: CGFloat = 0, factor: CGFloat = 0
         if scaledImage.width > monitorFrame.width {
             x = (scaledImage.width - monitorFrame.width) / 2
+            factor = (CGFloat) (cgImage!.height) / monitorFrame.height
         } else {
             y = (scaledImage.height - monitorFrame.height) / 2
+            factor = (CGFloat) (cgImage!.width) / monitorFrame.width
         }
     
         let cropFrame = NSRect(x: x, y: y, width: monitorFrame.width, height: monitorFrame.height)
-        let cgImage = scaledImage.asCGImage()
-        let factor = (CGFloat) (cgImage!.width) / monitorFrame.width
         let newImage = crop(frame: cropFrame, image: scaledImage, factor: factor)
         return (newImage, factor)
     }
