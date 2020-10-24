@@ -22,8 +22,8 @@ class ImageCutter {
         for screen in monitorInfo.screens {
             let imageFrame = NSRect(origin: NSPoint(x: screen.frame.origin.x - frame.minX, y: frame.maxY - screen.frame.maxY), size: screen.frame.size)
             let sub = crop(frame: imageFrame, image: image, factor: factor)
-            //let subImageUrl = imagePath.appendingPathComponent("\(screen.name)_\(NSDate().timeIntervalSince1970).png")
-            let subImageUrl = imagePath.appendingPathComponent("\(screen.name).png")
+            let subImageUrl = imagePath.appendingPathComponent("\(screen.name)_\(NSDate().timeIntervalSince1970).png")
+            //let subImageUrl = imagePath.appendingPathComponent("\(screen.name).png")
             try sub?.savePngTo(url: subImageUrl)
             m[screen] = subImageUrl
         }

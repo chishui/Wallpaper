@@ -43,7 +43,7 @@ class PathHelper {
         return imageTempFolder
     }
     
-    func deleteFileIfExist(file: URL) {
+    func delete(file: URL) {
         if !fileManager.fileExists(atPath: file.absoluteString) { return }
         do {
             try fileManager.removeItem(atPath: file.absoluteString)

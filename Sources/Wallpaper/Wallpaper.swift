@@ -63,8 +63,10 @@ public class Wallpaper {
             let m = try imageCutter.cut(wallpaperUrl: wallpaperUrl)
             let options = getSetWallpaperOptions()
             for (screen, wallpaperUrl) in m {
-                try clearCurrentWallpaperIfFileExist(screen: screen, wallpaperUrl: wallpaperUrl)
+                //try clearCurrentWallpaperIfFileExist(screen: screen, wallpaperUrl: wallpaperUrl)
+                let currentUrl = getWallpaper(screen: screen)
                 try setWallpaper(screen: screen, wallpaperUrl: wallpaperUrl, options: options)
+                pathHelper.delete(file: currentUrl)
             }
         } catch NSImageExtensionError.unwrappingPNGRepresentationFailed {
             throw SetWallpaperError.saveTemporaryImageFileFail
