@@ -18,7 +18,7 @@ class PathHelper {
         let displayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "OneWallpaper"
         //  Create subdirectory
         let directoryURL = appSupportURL.appendingPathComponent(displayName)
-        if !fileManager.fileExists(atPath: directoryURL.absoluteString) {
+        if !fileManager.fileExists(atPath: directoryURL.path) {
             do {
                 try fileManager.createDirectory (at: directoryURL, withIntermediateDirectories: true, attributes: nil)
             } catch {
@@ -32,7 +32,7 @@ class PathHelper {
     func getImageFolder() -> URL?{
         guard let appFolder = getApplicationFolder() else { return nil }
         let imageTempFolder = appFolder.appendingPathComponent("wallpaper")
-        if !fileManager.fileExists(atPath: imageTempFolder.absoluteString) {
+        if !fileManager.fileExists(atPath: imageTempFolder.path) {
             do {
                 try fileManager.createDirectory (at: imageTempFolder, withIntermediateDirectories: true, attributes: nil)
             } catch {
@@ -44,9 +44,9 @@ class PathHelper {
     }
     
     func delete(file: URL) {
-        if !fileManager.fileExists(atPath: file.absoluteString) { return }
+        if !fileManager.fileExists(atPath: file.path) { return }
         do {
-            try fileManager.removeItem(atPath: file.absoluteString)
+            try fileManager.removeItem(atPath: file.path)
         } catch {
             print("remove file \(file) failed! \(error)")
         }
